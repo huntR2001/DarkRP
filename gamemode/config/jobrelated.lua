@@ -1,3 +1,16 @@
+Skip to content
+Personal Open source Business Explore
+Sign upSign inPricingBlogSupport
+This repository
+Search
+ Watch 93  Star 239  Fork 522 FPtje/DarkRP
+ Code  Issues 3  Pull requests 0  Projects 0  Wiki  Pulse  Graphs
+Branch: master Find file Copy pathDarkRP/gamemode/config/jobrelated.lua
+0781f67  on 14 May
+@FPtje FPtje Block comments to Lua comments
+3 contributors @FPtje @Bo98 @SimonJacobs
+RawBlameHistory     
+305 lines (282 sloc)  10.2 KB
 -- People often copy jobs. When they do, the GM table does not exist anymore.
 -- This line makes the job code work both inside and outside of gamemode files.
 -- You should not copy this line into your code.
@@ -35,7 +48,7 @@ TEAM_CITIZEN = DarkRP.createJob("Citizen", {
     category = "Citizens",
 })
 
-TEAM_POLICE = DarkRP.createJob("Civil Protection", {
+TEAM_POLICE = DarkRP.createJob("Police Officer", {
     color = Color(25, 25, 170, 255),
     model = {"models/player/police.mdl", "models/player/police_fem.mdl"},
     description = [[The protector of every citizen that lives in the city.
@@ -46,7 +59,7 @@ TEAM_POLICE = DarkRP.createJob("Civil Protection", {
         The Battering Ram can also unfreeze frozen props (if enabled).
         Type /wanted <name> to alert the public to the presence of a criminal.]],
     weapons = {"arrest_stick", "unarrest_stick", "weapon_glock2", "stunstick", "door_ram", "weaponchecker"},
-    command = "cp",
+    command = "police",
     max = 4,
     salary = GAMEMODE.Config.normalsalary * 1.45,
     admin = 0,
@@ -55,7 +68,7 @@ TEAM_POLICE = DarkRP.createJob("Civil Protection", {
     ammo = {
         ["pistol"] = 60,
     },
-    category = "Civil Protection",
+    category = "Law Enforcement",
 })
 
 TEAM_GANG = DarkRP.createJob("Gangster", {
@@ -85,7 +98,7 @@ TEAM_GANG = DarkRP.createJob("Gangster", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "Gangsters",
+    category = "Criminals",
 })
 
 TEAM_MOB = DarkRP.createJob("Mob boss", {
@@ -102,7 +115,36 @@ TEAM_MOB = DarkRP.createJob("Mob boss", {
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "Gangsters",
+    category = "Criminals",
+})
+
+TEAM_HITMAN = DarkRP.createJob("Hitman", {
+	color = Color(204, 0, 0,),
+	model = "models/player/gman_high.mdl",
+	description = [[People complete higher you to kill & Assassinate for them.]],
+	weapons = {"lockpick"),
+	command = "hitman",
+	max = 2,
+	salary = 40,
+	admin = 0,
+	vote = false,
+	hasLicense = false,
+	category = "Criminals",
+})
+
+TEAM_RAPIST = DarkRP.createJob("Rapist, {
+	color = Color(25,25,25, 255),
+	model = "models/player/kleiner.mdl"
+	description = [[Go around raping people OUT of the public.
+		Don't get caught though.]],
+	weapons = {},
+	command = "rapist",
+	max = 2,
+	salary = 45,
+	admin = 0,
+	vote = false,
+	hasLicense = false,
+	category = "Criminals",	
 })
 
 TEAM_GUN = DarkRP.createJob("Gun Dealer", {
@@ -112,15 +154,15 @@ TEAM_GUN = DarkRP.createJob("Gun Dealer", {
         Make sure you aren't caught selling illegal firearms to the public! You might get arrested!]],
     weapons = {},
     command = "gundealer",
-    max = 2,
-    salary = GAMEMODE.Config.normalsalary,
+    max = 3,
+    salary = 50,
     admin = 0,
     vote = false,
     hasLicense = false,
-    category = "Citizens",
+    category = "Dealers",
 })
 
-TEAM_MEDIC = DarkRP.createJob("Medic", {
+TEAM_MEDIC = DarkRP.createJob("Doctor", {
     color = Color(47, 79, 79, 255),
     model = "models/player/kleiner.mdl",
     description = [[With your medical knowledge you work to restore players to full health.
@@ -128,9 +170,9 @@ TEAM_MEDIC = DarkRP.createJob("Medic", {
         Left click with the Medical Kit to heal other players.
         Right click with the Medical Kit to heal yourself.]],
     weapons = {"med_kit"},
-    command = "medic",
+    command = "doctor",
     max = 3,
-    salary = GAMEMODE.Config.normalsalary,
+    salary = 60,
     admin = 0,
     vote = false,
     hasLicense = false,
@@ -138,7 +180,7 @@ TEAM_MEDIC = DarkRP.createJob("Medic", {
     category = "Citizens",
 })
 
-TEAM_CHIEF = DarkRP.createJob("Civil Protection Chief", {
+TEAM_CHIEF = DarkRP.createJob("Police Chief", {
     color = Color(20, 20, 255, 255),
     model = "models/player/combine_soldier_prisonguard.mdl",
     description = [[The Chief is the leader of the Civil Protection unit.
@@ -160,7 +202,7 @@ TEAM_CHIEF = DarkRP.createJob("Civil Protection Chief", {
     ammo = {
         ["pistol"] = 60,
     },
-    category = "Civil Protection",
+    category = "Law Enforcement",
 })
 
 TEAM_MAYOR = DarkRP.createJob("Mayor", {
@@ -182,7 +224,7 @@ TEAM_MAYOR = DarkRP.createJob("Mayor", {
     vote = true,
     hasLicense = false,
     mayor = true,
-    category = "Civil Protection",
+    category = "Law Enforcement",
 })
 
 TEAM_HOBO = DarkRP.createJob("Hobo", {
@@ -204,24 +246,6 @@ TEAM_HOBO = DarkRP.createJob("Hobo", {
     hobo = true,
     category = "Citizens",
 })
-
-if not DarkRP.disabledDefaults["modules"]["hungermod"] then
-    TEAM_COOK = DarkRP.createJob("Cook", {
-        color = Color(238, 99, 99, 255),
-        model = "models/player/mossman.mdl",
-        description = [[As a cook, it is your responsibility to feed the other members of your city.
-            You can spawn a microwave and sell the food you make:
-            /buymicrowave]],
-        weapons = {},
-        command = "cook",
-        max = 2,
-        salary = 45,
-        admin = 0,
-        vote = false,
-        hasLicense = false,
-        cook = true
-    })
-end
 
 -- Compatibility for when default teams are disabled
 TEAM_CITIZEN = TEAM_CITIZEN  or -1
@@ -292,13 +316,4 @@ DarkRP.createCategory{
     color = Color(75, 75, 75, 255),
     canSee = fp{fn.Id, true},
     sortOrder = 101,
-}
-
-DarkRP.createCategory{
-    name = "Other",
-    categorises = "jobs",
-    startExpanded = true,
-    color = Color(0, 107, 0, 255),
-    canSee = fp{fn.Id, true},
-    sortOrder = 255,
 }
